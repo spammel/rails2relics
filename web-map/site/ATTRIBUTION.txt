@@ -1,0 +1,29 @@
+# UGRC attribution and disclaimer
+
+Data Sources: UGRC SGID (data modified), source agencies as cited in meta_sources. Licensed under CC BY 4.0, https://creativecommons.org/licenses/by/4.0/. Modifications: AOI subset, valid geometry repair as needed, reprojection to EPSG26912, and derived attributes where explicitly labeled.
+
+Provider policy: https://gis.utah.gov/documentation/policy/license/
+
+The following provider disclaimer is reproduced without modification.
+
+The data, including but not limited to geographic data, tabular data, and analytical data, are provided “as is”
+        and “as available”, with no guarantees relating to the availability, completeness, or accuracy of data, and
+        without any express or implied warranties.
+
+These data are provided as a public service for informational purposes only. You are solely responsible for
+        obtaining the proper evaluation of a location and associated data by a qualified professional. UGRC reserves the
+        right to change, revise, suspend or discontinue published data and services without notice at any time.
+
+Neither UGRC nor the State of Utah are responsible for any misuse or misrepresentation of the data. UGRC and the
+        State of Utah are not obligated to provide you with any maintenance or support. The user assumes the entire risk
+        as to the quality and performance of the data. You agree to hold the State of Utah harmless for any claims,
+        liability, costs, and damages relating to your use of the data. You agree that your sole remedy for any
+        dissatisfaction or claims is to discontinue use of the data.
+
+
+Additional source attribution for v1.1:
+USGS/NRCS: legacy NHD hydrography distributed through 3DHP, and Watershed Boundary Dataset; public-domain source data.
+Source: EC JRC/Google. Global Surface Water v1.5, September 2024 monthly water history. Cite Pekel et al. (2016), Nature 540:418–422, https://doi.org/10.1038/nature20584 . Modifications: 30 m water classification polygonized; connected Great Salt Lake component selected and clipped to the project region; display simplification.
+LANDFIRE 2025 Existing Vegetation Type: USGS EROS and LANDFIRE partners, CC0. Modifications: 270 m dominant-class aggregation of native 30 m source pixels, polygonization and regional clipping.
+Utah Geological Survey: Quaternary Fault Database, Digital Geologic Map of Utah (2000, Map179DM), and Landslide Susceptibility Map of Utah (2007, Map228DM). Regional geology and susceptibility are for 1:500,000 use. Modifications: subset, clipping, reprojection, friendly labels and browser display simplification. These project modifications do not imply UGS endorsement.
+BLM Surface Management Agency: project-supplied June 30, 2026 snapshot; public inclusion explicitly authorized by project owner October 13, 2026.

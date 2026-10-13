@@ -1,0 +1,32 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const path=require('node:path');
+const stored=new Map(),elements=new Map();
+const document={getElementById(id){if(!elements.has(id))elements.set(id,{textContent:'',value:'',classList:{toggle(){},remove(){},add(){}},addEventListener(){},setAttribute(){},focus(){},querySelectorAll(){return []}});return elements.get(id);},querySelectorAll(){return []}};
+const context=vm.createContext({document,localStorage:{getItem:k=>stored.get(k)||null,setItem:(k,v)=>stored.set(k,v)},console,setTimeout,requestAnimationFrame:fn=>fn(),URL});
+vm.runInContext(fs.readFileSync(path.join(__dirname,'../site/layer-controls.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'../site/app.js'),'utf8').replace(/initialize\(\);\s*$/,''),context);
+const result=vm.runInContext(`
+renderLayerOrder=()=>{};legend=()=>{};
+catalog={layers:[{layer:'base_clip_buffer_pl',title:'Region',geometry:'pl',style:{fill:false,opacity:.8}},{layer:'base_gnis_pt',title:'Places',geometry:'pt',style:{color:'#c63d43',radius:4}},{layer:'hydro_lakes_pl',title:'Lakes',geometry:'pl',style:{fillOpacity:.42,opacity:.5}},{layer:'hydro_basins_pl',title:'Basins',geometry:'pl',style:{fill:false,weight:4,opacity:.9}}]};
+initializeLayerControls();active=new Set(['base_clip_buffer_pl','base_gnis_pt','hydro_lakes_pl','hydro_basins_pl']);
+let painted=[],applied={};cache=new Map(catalog.layers.map(i=>[i.layer,{bringToFront(){painted.push(i.layer)},setStyle(fn){applied[i.layer]=fn({properties:{}})}}]));
+moveLayer('hydro_lakes_pl',-1);moveLayer('hydro_lakes_pl',-1);moveLayer('hydro_lakes_pl',-1);drawOrder();
+const top=painted.at(-1);
+// Both drag/drop insertion directions use this path.
+reorderLayer('hydro_basins_pl','hydro_lakes_pl',false);const before=layerOrder.indexOf('hydro_basins_pl')<layerOrder.indexOf('hydro_lakes_pl');
+reorderLayer('hydro_basins_pl','hydro_lakes_pl',true);const after=layerOrder.indexOf('hydro_basins_pl')>layerOrder.indexOf('hydro_lakes_pl');
+setLayerTransparency('base_gnis_pt',100);const hiddenPoint=applied.base_gnis_pt;
+setLayerTransparency('hydro_basins_pl',50);const halfBoundary=applied.hydro_basins_pl;
+setLayerTransparency('hydro_lakes_pl',50);const halfFill=applied.hydro_lakes_pl;
+active.delete('hydro_basins_pl');setLayerTransparency('hydro_basins_pl',70);const hiddenSetting=layerTransparency.get('hydro_basins_pl');
+const savedOrder=[...layerOrder];initializeLayerControls();const persists=JSON.stringify(savedOrder)===JSON.stringify(layerOrder)&&layerTransparency.get('hydro_basins_pl')===70;
+resetLayerControls();const reset=layerOrder.join('|')===defaultLayerOrder().join('|')&&transparencyFactor('base_gnis_pt')===1;
+localStorage.setItem(viewPreferencesKey,JSON.stringify({version:1,order:['missing','base_gnis_pt','base_gnis_pt'],transparency:{base_gnis_pt:999,missing:30}}));initializeLayerControls();
+const validates=layerOrder.length===catalog.layers.length&&new Set(layerOrder).size===catalog.layers.length&&layerTransparency.get('base_gnis_pt')===100&&!layerTransparency.has('missing');
+({top,before,after,hiddenPoint,halfBoundary,halfFill,hiddenSetting,persists,reset,validates});`,context);
+assert.equal(result.top,'hydro_lakes_pl');assert.ok(result.before&&result.after);
+assert.equal(result.hiddenPoint.opacity,0);assert.equal(result.hiddenPoint.fillOpacity,0);
+assert.equal(result.hiddenPoint.interactive,false);
+assert.equal(result.halfBoundary.opacity,.45);assert.equal(result.halfFill.fillOpacity,.21);
+assert.equal(result.hiddenSetting,70);assert.ok(result.persists&&result.reset&&result.validates);
+const report={passed:true,checks:['drawing order follows global user stack','drag insertion before/after across themes','point stroke and fill fade to zero','boundary and filled polygon opacity scaled','hidden layer transparency retained','settings survive reload','reset restores defaults','invalid or stale preferences sanitized']};
+console.log(JSON.stringify(report));

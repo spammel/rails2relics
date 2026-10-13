@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Rails to Relics: Utah's Fading Frontier</title><meta name="description" content="Explore the cultural landscape of America’s first transcontinental railroad in Utah: ghost towns, hydrology, geology and landscape threats."><meta name="referrer" content="strict-origin-when-cross-origin"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="vendor/leaflet.css"><link rel="stylesheet" href="style.css"><script defer src="vendor/leaflet.js"></script><script defer src="layer-controls.js"></script><script defer src="app.js"></script></head>
+<body>
+<header><div class="brand"><span class="mark" aria-hidden="true">R<span>│</span>R</span><div><strong>Rails to Relics: Utah's Fading Frontier</strong><span>A Cultural Landscape of America's First Transcontinental Railroad</span></div></div><div class="header-actions"><span class="local">● Public atlas</span><button id="about">About & sources</button><button id="menu" aria-expanded="false" aria-controls="sidebar">Layers</button></div></header>
+<main>
+<aside id="sidebar" aria-label="Map layers and search">
+<div class="intro"><span class="eyebrow">EXPLORE THE LANDSCAPE</span><h1>Traces of History Under Threat.</h1><p>Explore the railroad landscape and the forces shaping its surviving traces.</p><p id="snapshot" class="metadata"></p></div>
+<div class="search-wrap"><label for="search">Find a place</label><input type="search" id="search" placeholder="Search place names…" autocomplete="off"><div id="results" aria-live="polite"></div></div>
+<details class="order-panel" open><summary>Layer order <small>top → bottom</small></summary><p class="order-help">Drag the grip or use ↑ and ↓. Newly enabled layers move to the top.</p><ol id="layer-order-list" aria-label="Visible layers from top to bottom"></ol><p id="display-settings-note" class="metadata"></p><span id="layer-order-status" class="sr-only" role="status" aria-live="polite"></span></details>
+<div class="layer-heading"><h2>Map layers</h2><button id="reset" class="text-button" title="Restore starting layers, order, transparency and view">Reset</button></div>
+<div id="layers"><p>Loading the atlas…</p></div>
+<div class="sidebar-footer"><strong>Research inventory · read-only</strong><p>Dates and coverage vary. Historic railroad layers await manual research. Project sources and update notes are available on GitHub.</p><button id="qgis" class="text-button">Project on GitHub ↗</button></div>
+</aside>
+<section class="map-wrap" aria-label="Interactive map">
+<div id="map" aria-label="Map of Utah's transcontinental railroad cultural landscape"></div>
+<div class="map-title"><span class="eyebrow">BOX ELDER COUNTY, UTAH</span><strong>Study Area/Region</strong></div>
+<div class="map-buttons"><button id="home" title="Fit the study area">⌂ <span>Study area</span></button><button id="legend-toggle" aria-expanded="true">Legend</button></div>
+<div id="legend" class="legend" aria-label="Visible layer legend"></div>
+<div class="map-foot"><span id="status" role="status">Opening local data…</span><span id="coords"></span></div>
+<div id="map-hint">Click a feature for its story, date and source.</div>
+</section>
+</main>
+<dialog id="dialog"><div class="dialog-head"><h2 id="dialog-title">About this atlas</h2><button id="close-dialog" aria-label="Close dialog">✕</button></div><div id="dialog-content"></div></dialog>
+<noscript>This interactive map needs JavaScript enabled. Visit the project repository for source data and documentation.</noscript>
+</body></html>
